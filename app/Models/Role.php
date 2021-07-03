@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Models\Role as SpatieRole;
 
@@ -12,6 +13,8 @@ use Spatie\Permission\Models\Role as SpatieRole;
  * @property string $name
  * @property string $description
  * @property string $guard_name
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 
 class Role extends SpatieRole

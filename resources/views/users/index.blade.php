@@ -19,7 +19,7 @@
               <h4 class="card-title">Users</h4>
             </div>
             <div class="col-4 text-right">
-              <a href="/users/create" class="btn btn-sm btn-primary">Add user</a>
+              <a href="{{ route('user.create.form') }}" class="btn btn-sm btn-primary">Add user</a>
             </div>
           </div>
         </div>

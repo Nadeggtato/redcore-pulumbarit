@@ -1834,6 +1834,111 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/roles/RoleCreateForm.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/roles/RoleCreateForm.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'RoleCreateForm',
+  data: function data() {
+    return {
+      name: '',
+      description: '',
+      validationErrors: {
+        name: '',
+        description: ''
+      },
+      isSubmitting: false,
+      hasOtherError: false
+    };
+  },
+  methods: {
+    submit: function submit() {
+      var _this = this;
+
+      this.initErrors();
+      this.isSubmitting = true;
+      this.hasOtherError = false;
+      this.description = this.description.trim();
+      window.axios.post('/roles/create', {
+        'name': this.name,
+        'description': this.description
+      }).then(function (res) {
+        _this.isSubmitting = false;
+        window.location = '/roles';
+      })["catch"](function (error) {
+        _this.isSubmitting = false;
+
+        if (error.response.status === 422) {
+          Object.entries(error.response.data.errors).forEach(function (err) {
+            var _err = _slicedToArray(err, 2),
+                key = _err[0],
+                value = _err[1];
+
+            _this.validationErrors[key] = value;
+          });
+        } else {
+          _this.hasOtherError = true;
+        }
+      });
+    },
+    initErrors: function initErrors() {
+      this.validationErrors = {
+        name: '',
+        description: ''
+      };
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/roles/RolesTable.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/roles/RolesTable.vue?vue&type=script&lang=js& ***!
@@ -2443,6 +2548,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.component('users-table', __webpack_requ
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('user-create-form', __webpack_require__(/*! ./components/users/UserCreateForm */ "./resources/js/components/users/UserCreateForm.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('user-update-form', __webpack_require__(/*! ./components/users/UserUpdateForm */ "./resources/js/components/users/UserUpdateForm.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('roles-table', __webpack_require__(/*! ./components/roles/RolesTable */ "./resources/js/components/roles/RolesTable.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('role-create-form', __webpack_require__(/*! ./components/roles/RoleCreateForm */ "./resources/js/components/roles/RoleCreateForm.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -37838,6 +37944,45 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./resources/js/components/roles/RoleCreateForm.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/roles/RoleCreateForm.vue ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _RoleCreateForm_vue_vue_type_template_id_ea6ae91a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RoleCreateForm.vue?vue&type=template&id=ea6ae91a& */ "./resources/js/components/roles/RoleCreateForm.vue?vue&type=template&id=ea6ae91a&");
+/* harmony import */ var _RoleCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RoleCreateForm.vue?vue&type=script&lang=js& */ "./resources/js/components/roles/RoleCreateForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _RoleCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _RoleCreateForm_vue_vue_type_template_id_ea6ae91a___WEBPACK_IMPORTED_MODULE_0__.render,
+  _RoleCreateForm_vue_vue_type_template_id_ea6ae91a___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/roles/RoleCreateForm.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/roles/RolesTable.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/roles/RolesTable.vue ***!
@@ -37994,6 +38139,22 @@ component.options.__file = "resources/js/components/users/UsersTable.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/roles/RoleCreateForm.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/roles/RoleCreateForm.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RoleCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RoleCreateForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/roles/RoleCreateForm.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RoleCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/roles/RolesTable.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/roles/RolesTable.vue?vue&type=script&lang=js& ***!
@@ -38055,6 +38216,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UsersTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/users/UsersTable.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/roles/RoleCreateForm.vue?vue&type=template&id=ea6ae91a&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/roles/RoleCreateForm.vue?vue&type=template&id=ea6ae91a& ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RoleCreateForm_vue_vue_type_template_id_ea6ae91a___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RoleCreateForm_vue_vue_type_template_id_ea6ae91a___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RoleCreateForm_vue_vue_type_template_id_ea6ae91a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RoleCreateForm.vue?vue&type=template&id=ea6ae91a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/roles/RoleCreateForm.vue?vue&type=template&id=ea6ae91a&");
+
 
 /***/ }),
 
@@ -38122,6 +38300,140 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTable_vue_vue_type_template_id_09ac6610___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTable_vue_vue_type_template_id_09ac6610___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UsersTable.vue?vue&type=template&id=09ac6610& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/users/UsersTable.vue?vue&type=template&id=09ac6610&");
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/roles/RoleCreateForm.vue?vue&type=template&id=ea6ae91a&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/roles/RoleCreateForm.vue?vue&type=template&id=ea6ae91a& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "card-body",
+      style: [
+        _vm.isSubmitting === true ? "cursor: progress" : "cursor: default"
+      ]
+    },
+    [
+      _vm.hasOtherError
+        ? _c("div", { staticClass: "alert alert-danger" }, [_vm._m(0)])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "name" } }, [_vm._v("Role Name*")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.name,
+              expression: "name"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "name",
+            id: "name",
+            placeholder: "Name",
+            disabled: _vm.isSubmitting
+          },
+          domProps: { value: _vm.name },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.name = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm.validationErrors["name"]
+          ? _c("small", { staticClass: "text-danger" }, [
+              _vm._v(_vm._s(_vm.validationErrors["name"][0]))
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "description" } }, [
+          _vm._v("Role description*")
+        ]),
+        _vm._v(" "),
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.description,
+              expression: "description"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { name: "description", id: "description", rows: "4" },
+          domProps: { value: _vm.description },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.description = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm.validationErrors["description"]
+          ? _c("small", { staticClass: "text-danger" }, [
+              _vm._v(_vm._s(_vm.validationErrors["description"][0]))
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-footer text-right" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-fill btn-primary",
+            attrs: { type: "submit", disabled: _vm.isSubmitting },
+            on: { click: _vm.submit }
+          },
+          [_vm._v("\n      Create Role\n    ")]
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("b", [_vm._v(" Oops - ")]),
+      _vm._v(
+        " An error has been encountered. Please try again in a few minutes"
+      )
+    ])
+  }
+]
+render._withStripped = true
+
 
 
 /***/ }),
