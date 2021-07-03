@@ -7,7 +7,7 @@ import Vue from 'vue'
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
-Vue.component('users-list', require('./components/users/UsersList').default)
+Vue.component('users-table', require('./components/users/UsersTable').default)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

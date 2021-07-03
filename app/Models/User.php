@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,6 +19,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $email
  * @property int|null $role_id
  * @property string $password
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class User extends Authenticatable
 {
@@ -52,4 +56,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('M d, Y h:i A');
+    }
 }

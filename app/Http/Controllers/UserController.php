@@ -16,4 +16,9 @@ class UserController extends Controller
     {
         return view('users.index');
     }
+
+    public function userList()
+    {
+        return User::with('roles')->get();
+    }
 }
