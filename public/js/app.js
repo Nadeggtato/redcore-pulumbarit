@@ -2192,11 +2192,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'UsersTable',
   data: function data() {
     return {
-      users: []
+      users: [],
+      toDelete: null,
+      isForbidden: false
     };
   },
   mounted: function mounted() {
@@ -2207,6 +2237,29 @@ __webpack_require__.r(__webpack_exports__);
         _this.users = res.data;
       }
     });
+  },
+  methods: {
+    confirmDelete: function confirmDelete(id) {
+      this.toDelete = id;
+      $(this.$refs.confirmationModal).modal('show');
+    },
+    deleteUser: function deleteUser() {
+      var _this2 = this;
+
+      this.isForbidden = false;
+      window.axios.post('/users/delete', {
+        '_method': 'delete',
+        'id': this.toDelete
+      }).then(function (res) {
+        location.reload();
+      })["catch"](function (error) {
+        $(_this2.$refs.confirmationModal).modal('hide');
+
+        if (error.response.status === 403) {
+          _this2.isForbidden = true;
+        }
+      });
+    }
   }
 });
 
@@ -38487,8 +38540,59 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", {}, [
-    _c("table", { staticClass: "table tablesorter ", attrs: { id: "" } }, [
-      _vm._m(0),
+    _c(
+      "div",
+      {
+        ref: "confirmationModal",
+        staticClass: "modal",
+        attrs: { tabindex: "-1", role: "dialog" }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer justify-content-end" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary mr-2",
+                    attrs: { type: "button" },
+                    on: { click: _vm.deleteUser }
+                  },
+                  [_vm._v("Yes")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Cancel")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _vm.isForbidden
+      ? _c("div", { staticClass: "alert alert-danger" }, [
+          _vm._m(2),
+          _vm._v(" "),
+          _vm._m(3)
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("table", { staticClass: "table tablesorter", attrs: { id: "" } }, [
+      _vm._m(4),
       _vm._v(" "),
       _c(
         "tbody",
@@ -38520,7 +38624,18 @@ var render = function() {
                 [_c("i", { staticClass: "tim-icons icon-pencil" })]
               ),
               _vm._v(" "),
-              _vm._m(1, true)
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-sm btn-primary",
+                  on: {
+                    click: function($event) {
+                      return _vm.confirmDelete(user.id)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "tim-icons icon-trash-simple" })]
+              )
             ])
           ])
         }),
@@ -38530,6 +38645,62 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Confirm Deletion")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("p", [_vm._v("Are you sure you want to delete this user?")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "aria-hidden": "true",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("i", { staticClass: "tim-icons icon-simple-remove" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("b", [_vm._v(" Oops - ")]),
+      _vm._v(" Unable to delete the last user.")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -38547,16 +38718,6 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } })
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "btn btn-sm btn-primary", attrs: { href: "#" } },
-      [_c("i", { staticClass: "tim-icons icon-trash-simple" })]
-    )
   }
 ]
 render._withStripped = true

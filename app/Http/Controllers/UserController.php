@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
@@ -76,6 +77,7 @@ class UserController extends Controller
 
         $user->removeRole($user->roles()->first());
         $user->assignRole(Role::findById($updateUserRequest->input('role')));
+        session()->flash('success', 'User has been updated!');
 
         return ResponseFacade::json([
             'success' => true,
@@ -86,6 +88,28 @@ class UserController extends Controller
                 'date' => $user->created_at,
             ],
         ], Response::HTTP_OK);
+    }
 
+    public function delete(DeleteUserRequest $deleteUserRequest)
+    {
+        if (User::query()->count() === 1) {
+            return ResponseFacade::json([
+                'success' => false,
+                'error' => 'Unable to delete the last user.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        /** @var User $user */
+        $user = User::find($deleteUserRequest->input('id'));
+        $user->delete();
+        session()->flash('success', 'User has been deleted!');
+
+        return ResponseFacade::json([
+            'success' => true,
+            'data' => (object)[
+                'id' => $user->id,
+                'date' => $user->created_at,
+            ],
+        ]);
     }
 }
