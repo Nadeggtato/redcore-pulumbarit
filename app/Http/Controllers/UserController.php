@@ -7,6 +7,7 @@ use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response as ResponseFacade;
@@ -41,7 +42,7 @@ class UserController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    public function showUpdateForm(int $id)
+    public function edit(int $id)
     {
         /** @var User $user */
         $user = User::with('roles')->find($id);
@@ -70,12 +71,7 @@ class UserController extends Controller
 
         return ResponseFacade::json([
             'success' => true,
-            'data' => (object)[
-                'name' => $user->name,
-                'email' => $user->email,
-                'role' => $user->getRoleNames(),
-                'date' => $user->created_at,
-            ],
+            'date' => Carbon::now(),
         ], Response::HTTP_OK);
     }
 

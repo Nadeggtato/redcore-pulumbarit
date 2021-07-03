@@ -3,23 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Response as ResponseFacade;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     public function roleList()
     {
         return Role::all();
@@ -65,27 +57,26 @@ class RoleController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Role $role
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Role $role)
+    public function edit(int $id)
     {
-        //
+        $role = Role::findById($id);
+
+        return view('roles.update', compact('role'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Role $role
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Role $role)
+    public function update(UpdateRoleRequest $updateRoleRequest)
     {
-        //
+        /** @var Role $role */
+        $role = Role::query()->find($updateRoleRequest->input('id'));
+        $role->update([
+            'name' => $updateRoleRequest->input('name'),
+            'description' => $updateRoleRequest->input('description'),
+        ]);
+
+        return ResponseFacade::json([
+            'success' => true,
+            'date' => Carbon::now(),
+        ]);
     }
 
     /**
