@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('roles/create', [RoleController::class, 'create'])->name('role.create');
     Route::get('roles/update/{id}', [RoleController::class, 'edit'])->name('role.update.form');
     Route::put('roles/update', [RoleController::class, 'update'])->name('role.update');
+    Route::delete('roles/delete', [RoleController::class, 'destroy'])->name('role.delete');
 
     Route::get('icons', ['as' => 'pages.icons', 'uses' => 'App\Http\Controllers\PageController@icons']);
     Route::get('maps', ['as' => 'pages.maps', 'uses' => 'App\Http\Controllers\PageController@maps']);

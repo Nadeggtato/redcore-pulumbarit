@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role as SpatieRole;
  * Class Role
  * @package App\Models
  *
+ * @property int $id
  * @property string $name
  * @property string $description
  * @property string $guard_name

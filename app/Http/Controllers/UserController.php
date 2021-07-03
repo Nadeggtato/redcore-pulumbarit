@@ -93,7 +93,7 @@ class UserController extends Controller
             'success' => true,
             'data' => (object)[
                 'id' => $user->id,
-                'date' => $user->created_at,
+                'date' => Carbon::now(),
             ],
         ]);
     }
