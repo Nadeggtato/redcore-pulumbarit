@@ -43,7 +43,7 @@
 
     <div class="card-footer text-right">
       <button type="submit" class="btn btn-fill btn-primary" @click="submit" :disabled="isSubmitting">
-        Create User
+        Update User
       </button>
     </div>
   </div>
@@ -90,13 +90,20 @@ export default {
       this.initErrors()
       this.isSubmitting = true
       this.hasOtherError = false
-      window.axios.post('/users/create', {
-        'name': this.name,
-        'email': this.email,
-        'role': this.role,
-        'password': this.password,
-        'password_confirmation': this.password_confirmation
-      }).then((res) => {
+
+      let formData = new FormData()
+      formData.append('_method', 'PUT')
+      formData.append('id', this.user.id)
+      formData.append('name', this.name)
+      formData.append('email', this.email)
+      formData.append('role', this.role)
+
+      if (this.password !== '') {
+        formData.append('password', this.password)
+        formData.append('password_confirmation', this.password_confirmation)
+      }
+
+      window.axios.post('/users/update', formData).then((res) => {
         this.isSubmitting = false
         window.location = '/users'
       }).catch((error) => {

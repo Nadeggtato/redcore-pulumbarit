@@ -2101,13 +2101,19 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       this.initErrors();
       this.isSubmitting = true;
       this.hasOtherError = false;
-      window.axios.post('/users/create', {
-        'name': this.name,
-        'email': this.email,
-        'role': this.role,
-        'password': this.password,
-        'password_confirmation': this.password_confirmation
-      }).then(function (res) {
+      var formData = new FormData();
+      formData.append('_method', 'PUT');
+      formData.append('id', this.user.id);
+      formData.append('name', this.name);
+      formData.append('email', this.email);
+      formData.append('role', this.role);
+
+      if (this.password !== '') {
+        formData.append('password', this.password);
+        formData.append('password_confirmation', this.password_confirmation);
+      }
+
+      window.axios.post('/users/update', formData).then(function (res) {
         _this2.isSubmitting = false;
         window.location = '/users';
       })["catch"](function (error) {
@@ -38439,7 +38445,7 @@ var render = function() {
             attrs: { type: "submit", disabled: _vm.isSubmitting },
             on: { click: _vm.submit }
           },
-          [_vm._v("\n      Create User\n    ")]
+          [_vm._v("\n      Update User\n    ")]
         )
       ])
     ]
