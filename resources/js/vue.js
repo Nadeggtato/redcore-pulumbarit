@@ -11,6 +11,7 @@ Vue.component('users-table', require('./components/users/UsersTable').default)
 Vue.component('user-create-form', require('./components/users/UserCreateForm').default)
 Vue.component('user-update-form', require('./components/users/UserUpdateForm').default)
 
+Vue.component('roles-table', require('./components/roles/RolesTable').default)
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

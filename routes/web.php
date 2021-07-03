@@ -25,7 +25,7 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('home', [HomeController::class, 'index'])->name('home');
-    Route::get('users', [UserController::class, 'show'])->name('user.show');
+    Route::view('users', 'users.index')->name('user.show');
     Route::get('users/list', [UserController::class, 'userList'])->name('user.list');
     Route::view('users/create', 'users.create')->name('user.add.form');
     Route::post('users/create', [UserController::class, 'create'])->name('user.create');
@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('users/update', [UserController::class, 'update'])->name('user.update');
     Route::delete('users/delete', [UserController::class, 'delete'])->name('user.delete');
 
+    Route::view('roles', 'roles.index')->name('role.index');
     Route::get('roles/list', [RoleController::class, 'roleList'])->name('role.list');
 
     Route::get('icons', ['as' => 'pages.icons', 'uses' => 'App\Http\Controllers\PageController@icons']);
