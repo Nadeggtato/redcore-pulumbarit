@@ -28,6 +28,7 @@ class CreateUserRequest extends FormRequest
                 'bail',
                 'required',
                 'string',
+                'unique:users,name',
                 'max:255',
             ],
             'email' => [

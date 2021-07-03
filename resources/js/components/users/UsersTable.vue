@@ -22,7 +22,9 @@
         </td>
         <td>{{ user.created_at }}</td>
         <td class="text-right">
-          <a href="#" class="btn btn-sm btn-primary"><i class="tim-icons icon-pencil"></i></a>
+          <a :href="'/users/update/' + user.id" class="btn btn-sm btn-primary">
+            <i class="tim-icons icon-pencil"></i>
+          </a>
           <a href="#" class="btn btn-sm btn-primary"><i class="tim-icons icon-trash-simple"></i></a>
         </td>
       </tr>

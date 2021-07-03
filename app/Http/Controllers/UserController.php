@@ -48,4 +48,12 @@ class UserController extends Controller
             ],
         ], Response::HTTP_CREATED);
     }
+
+    public function showUpdateForm(int $id)
+    {
+        /** @var User $user */
+        $user = User::with('roles')->find($id);
+
+        return view('users.update', compact('user'));
+    }
 }

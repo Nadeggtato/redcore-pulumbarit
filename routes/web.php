@@ -29,6 +29,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('users/list', [UserController::class, 'userList'])->name('user.list');
     Route::view('users/create', 'users.create')->name('user.add.form');
     Route::post('users/create', [UserController::class, 'create'])->name('user.create');
+    Route::get('users/update/{id}', [UserController::class, 'showUpdateForm'])
+        ->name('user.update.form');
+    Route::put('users/update', [UserController::class, 'update'])->name('user.update');
     Route::get('roles/list', [RoleController::class, 'roleList'])->name('role.list');
 
     Route::get('icons', ['as' => 'pages.icons', 'uses' => 'App\Http\Controllers\PageController@icons']);
