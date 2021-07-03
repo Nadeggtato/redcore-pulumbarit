@@ -8,6 +8,7 @@ import Vue from 'vue'
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 Vue.component('users-table', require('./components/users/UsersTable').default)
+Vue.component('user-create-form', require('./components/users/UserCreateForm').default)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

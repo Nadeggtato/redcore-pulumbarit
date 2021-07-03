@@ -17,6 +17,11 @@ class RoleController extends Controller
         //
     }
 
+    public function roleList()
+    {
+        return Role::all();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
