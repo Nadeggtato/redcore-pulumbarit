@@ -1,7 +1,9 @@
 <?php
+
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,14 +16,20 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'id' => 1,
-            'name' => 'Admin Admin',
-            'email' => 'admin@white.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('secret'),
-            'created_at' => now(),
-            'updated_at' => now()
+        /** @var User $superAdmin */
+        $superAdmin = User::query()->create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@gmail.com',
+            'password' => Hash::make('hello123'),
         ]);
+
+        /** @var Role $superAdminRole */
+        $superAdminRole = Role::create([
+            'name' => Role::SUPER_ADMIN,
+            'description' => 'Has access to everything',
+            'guard_name' => 'web',
+        ]);
+
+        $superAdmin->assignRole($superAdminRole);
     }
 }

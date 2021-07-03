@@ -3,40 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Permission\Models\Role as SpatieRole;
 
 /**
  * Class Role
  * @package App\Models
  *
- * @property int $id
  * @property string $name
  * @property string $description
- * @property-read User[]|null $users
- * @property-read Permission[]|null $permissions
+ * @property string $guard_name
  */
-class Role extends Model
+
+class Role extends SpatieRole
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'description',
-    ];
-
-    protected $with = [
-        'permissions',
-    ];
-
-    public function users(): HasMany
-    {
-        $this->hasMany(User::class);
-    }
-
-    public function permissions(): BelongsToMany
-    {
-        $this->belongsToMany(Permission::class);
-    }
+    const SUPER_ADMIN = 'Super Admin';
 }
