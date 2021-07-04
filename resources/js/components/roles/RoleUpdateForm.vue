@@ -17,6 +17,15 @@
       <small class="text-danger" v-if="validationErrors['description']">{{ validationErrors['description'][0] }}</small>
     </div>
 
+    <div class="form-group row">
+      <label class="col-12">Permissions</label>
+      <div class="col-6" v-for="permission in permissions">
+        <input type="checkbox" :value="permission.name" :id="'chk' + permission.id"
+               :checked="currentPermissions.includes(permission.name)">
+        <label :for="'chk'+permission.id">{{ permission.name }}</label>
+      </div>
+    </div>
+
     <div class="card-footer text-right">
       <button type="submit" class="btn btn-fill btn-primary" @click="submit" :disabled="isSubmitting">
         Update Role
@@ -30,7 +39,6 @@ export default {
   name: 'UserCreateForm',
   data () {
     return {
-      roles: [],
       name: this.role.name,
       description: this.role.description,
       validationErrors: {
@@ -38,7 +46,9 @@ export default {
         description: '',
       },
       isSubmitting: false,
-      hasOtherError: false
+      hasOtherError: false,
+      permissions: [],
+      selectedPermissions: []
     }
   },
   props: {
@@ -47,28 +57,25 @@ export default {
       required: true
     }
   },
+  mounted () {
+    window.axios.get('/permissions')
+      .then((res) => {
+        this.permissions = res.data
+      })
+  },
   methods: {
     submit () {
       this.initErrors()
+      this.getPermissions()
       this.isSubmitting = true
       this.hasOtherError = false
       this.description = this.description.trim()
-      // let formData = new FormData()
-      // formData.append('_method', 'PUT')
-      // formData.append('id', this.role.id)
-      // formData.append('name', this.name)
-      // formData.append('email', this.email)
-      // formData.append('role', this.role)
-      //
-      // if (this.password !== '') {
-      //   formData.append('password', this.password)
-      //   formData.append('password_confirmation', this.password_confirmation)
-      // }
 
       window.axios.put('/roles/update', {
         'id': this.role.id,
         'name': this.name,
-        'description': this.description
+        'description': this.description,
+        'permissions': this.selectedPermissions
       }).then((res) => {
         this.isSubmitting = false
         window.location = '/roles'
@@ -89,7 +96,25 @@ export default {
         name: '',
         description: '',
       }
+    },
+    getPermissions () {
+      const selected = document.querySelectorAll('input[type=checkbox]:checked')
+      this.selectedPermissions = []
+
+      selected.forEach((val) => {
+        this.selectedPermissions.push(val.value)
+      })
     }
   },
+  computed: {
+    currentPermissions () {
+      let permissions = []
+      this.role.permissions.forEach(function (permission) {
+        permissions.push(permission.name)
+      })
+
+      return permissions
+    }
+  }
 }
 </script>

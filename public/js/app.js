@@ -1884,6 +1884,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'RoleCreateForm',
   data: function data() {
@@ -1895,25 +1903,36 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         description: ''
       },
       isSubmitting: false,
-      hasOtherError: false
+      hasOtherError: false,
+      permissions: [],
+      selectedPermissions: []
     };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    window.axios.get('/permissions').then(function (res) {
+      _this.permissions = res.data;
+    });
   },
   methods: {
     submit: function submit() {
-      var _this = this;
+      var _this2 = this;
 
       this.initErrors();
+      this.getPermissions();
       this.isSubmitting = true;
       this.hasOtherError = false;
       this.description = this.description.trim();
       window.axios.post('/roles/create', {
         'name': this.name,
-        'description': this.description
+        'description': this.description,
+        'permissions': this.selectedPermissions
       }).then(function (res) {
-        _this.isSubmitting = false;
+        _this2.isSubmitting = false;
         window.location = '/roles';
       })["catch"](function (error) {
-        _this.isSubmitting = false;
+        _this2.isSubmitting = false;
 
         if (error.response.status === 422) {
           Object.entries(error.response.data.errors).forEach(function (err) {
@@ -1921,10 +1940,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
                 key = _err[0],
                 value = _err[1];
 
-            _this.validationErrors[key] = value;
+            _this2.validationErrors[key] = value;
           });
         } else {
-          _this.hasOtherError = true;
+          _this2.hasOtherError = true;
         }
       });
     },
@@ -1933,6 +1952,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         name: '',
         description: ''
       };
+    },
+    getPermissions: function getPermissions() {
+      var _this3 = this;
+
+      var selected = document.querySelectorAll('input[type=checkbox]:checked');
+      this.selectedPermissions = [];
+      selected.forEach(function (val) {
+        _this3.selectedPermissions.push(val.value);
+      });
     }
   }
 });
@@ -1989,11 +2017,19 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'UserCreateForm',
   data: function data() {
     return {
-      roles: [],
       name: this.role.name,
       description: this.role.description,
       validationErrors: {
@@ -2001,7 +2037,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         description: ''
       },
       isSubmitting: false,
-      hasOtherError: false
+      hasOtherError: false,
+      permissions: [],
+      selectedPermissions: []
     };
   },
   props: {
@@ -2010,34 +2048,32 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       required: true
     }
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    window.axios.get('/permissions').then(function (res) {
+      _this.permissions = res.data;
+    });
+  },
   methods: {
     submit: function submit() {
-      var _this = this;
+      var _this2 = this;
 
       this.initErrors();
+      this.getPermissions();
       this.isSubmitting = true;
       this.hasOtherError = false;
-      this.description = this.description.trim(); // let formData = new FormData()
-      // formData.append('_method', 'PUT')
-      // formData.append('id', this.role.id)
-      // formData.append('name', this.name)
-      // formData.append('email', this.email)
-      // formData.append('role', this.role)
-      //
-      // if (this.password !== '') {
-      //   formData.append('password', this.password)
-      //   formData.append('password_confirmation', this.password_confirmation)
-      // }
-
+      this.description = this.description.trim();
       window.axios.put('/roles/update', {
         'id': this.role.id,
         'name': this.name,
-        'description': this.description
+        'description': this.description,
+        'permissions': this.selectedPermissions
       }).then(function (res) {
-        _this.isSubmitting = false;
+        _this2.isSubmitting = false;
         window.location = '/roles';
       })["catch"](function (error) {
-        _this.isSubmitting = false;
+        _this2.isSubmitting = false;
 
         if (error.response.status === 422) {
           Object.entries(error.response.data.errors).forEach(function (err) {
@@ -2045,10 +2081,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
                 key = _err[0],
                 value = _err[1];
 
-            _this.validationErrors[key] = value;
+            _this2.validationErrors[key] = value;
           });
         } else {
-          _this.hasOtherError = true;
+          _this2.hasOtherError = true;
         }
       });
     },
@@ -2057,6 +2093,24 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         name: '',
         description: ''
       };
+    },
+    getPermissions: function getPermissions() {
+      var _this3 = this;
+
+      var selected = document.querySelectorAll('input[type=checkbox]:checked');
+      this.selectedPermissions = [];
+      selected.forEach(function (val) {
+        _this3.selectedPermissions.push(val.value);
+      });
+    }
+  },
+  computed: {
+    currentPermissions: function currentPermissions() {
+      var permissions = [];
+      this.role.permissions.forEach(function (permission) {
+        permissions.push(permission.name);
+      });
+      return permissions;
     }
   }
 });
@@ -38653,6 +38707,28 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "form-group row" },
+        [
+          _c("label", { staticClass: "col-12" }, [_vm._v("Permissions")]),
+          _vm._v(" "),
+          _vm._l(_vm.permissions, function(permission) {
+            return _c("div", { staticClass: "col-6" }, [
+              _c("input", {
+                attrs: { type: "checkbox", id: "chk" + permission.id },
+                domProps: { value: permission.name }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "chk" + permission.id } }, [
+                _vm._v(_vm._s(permission.name))
+              ])
+            ])
+          })
+        ],
+        2
+      ),
+      _vm._v(" "),
       _c("div", { staticClass: "card-footer text-right" }, [
         _c(
           "button",
@@ -38786,6 +38862,31 @@ var render = function() {
             ])
           : _vm._e()
       ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "form-group row" },
+        [
+          _c("label", { staticClass: "col-12" }, [_vm._v("Permissions")]),
+          _vm._v(" "),
+          _vm._l(_vm.permissions, function(permission) {
+            return _c("div", { staticClass: "col-6" }, [
+              _c("input", {
+                attrs: { type: "checkbox", id: "chk" + permission.id },
+                domProps: {
+                  value: permission.name,
+                  checked: _vm.currentPermissions.includes(permission.name)
+                }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "chk" + permission.id } }, [
+                _vm._v(_vm._s(permission.name))
+              ])
+            ])
+          })
+        ],
+        2
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "card-footer text-right" }, [
         _c(

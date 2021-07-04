@@ -24,13 +24,6 @@ class UsersRolesAndPermissionsSeeder extends Seeder
             'password' => Hash::make('hello123'),
         ]);
 
-        /** @var User $admin */
-        $admin = User::query()->create([
-            'name' => 'Mr. Admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('hello123'),
-        ]);
-
         /** @var Role $superAdminRole */
         $superAdminRole = Role::create([
             'name' => Role::SUPER_ADMIN,
@@ -38,25 +31,8 @@ class UsersRolesAndPermissionsSeeder extends Seeder
             'guard_name' => 'web',
         ]);
 
-        /** @var Role $admin */
-        $adminRole = Role::create([
-            'name' => Role::ADMIN,
-            'description' => 'Limited permissions',
-            'guard_name' => 'web',
-        ]);
-
         $superAdmin->assignRole($superAdminRole);
-        $admin->assignRole($adminRole);
         $this->seedPermissions();
-
-        $adminPermissions = [
-            'view any user',
-            'view any role',
-        ];
-
-        foreach ($adminPermissions as $permission) {
-            $admin->givePermissionTo($permission);
-        }
     }
 
     private function seedPermissions()

@@ -37,6 +37,9 @@ class UpdateRoleRequest extends FormRequest
                 'required',
                 'max:255',
             ],
+            'permissions.*' => [
+                'exists:permissions,name',
+            ],
         ];
     }
 }

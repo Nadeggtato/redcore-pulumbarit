@@ -38,6 +38,9 @@ class CreateRoleRequest extends FormRequest
                 'string',
                 'max:255',
             ],
+            'permissions.*' => [
+                'exists:permissions,name',
+            ],
         ];
     }
 }

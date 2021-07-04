@@ -17,6 +17,14 @@
       <small class="text-danger" v-if="validationErrors['description']">{{ validationErrors['description'][0] }}</small>
     </div>
 
+    <div class="form-group row">
+      <label class="col-12">Permissions</label>
+      <div class="col-6" v-for="permission in permissions">
+        <input type="checkbox" :value="permission.name" :id="'chk' + permission.id">
+        <label :for="'chk'+permission.id">{{ permission.name }}</label>
+      </div>
+    </div>
+
     <div class="card-footer text-right">
       <button type="submit" class="btn btn-fill btn-primary" @click="submit" :disabled="isSubmitting">
         Create Role
@@ -37,18 +45,29 @@ export default {
         description: ''
       },
       isSubmitting: false,
-      hasOtherError: false
+      hasOtherError: false,
+      permissions: [],
+      selectedPermissions: []
     }
+  },
+  mounted () {
+    window.axios.get('/permissions')
+      .then((res) => {
+        this.permissions = res.data
+      })
   },
   methods: {
     submit () {
       this.initErrors()
+      this.getPermissions()
       this.isSubmitting = true
       this.hasOtherError = false
       this.description = this.description.trim()
+
       window.axios.post('/roles/create', {
         'name': this.name,
         'description': this.description,
+        'permissions': this.selectedPermissions
       }).then((res) => {
         this.isSubmitting = false
         window.location = '/roles'
@@ -56,7 +75,7 @@ export default {
         this.isSubmitting = false
         if (error.response.status === 422) {
           Object.entries(error.response.data.errors).forEach((err) => {
-            const [key, value] = err;
+            const [key, value] = err
             this.validationErrors[key] = value
           })
         } else {
@@ -69,6 +88,14 @@ export default {
         name: '',
         description: '',
       }
+    },
+    getPermissions () {
+      const selected = document.querySelectorAll('input[type=checkbox]:checked')
+      this.selectedPermissions = []
+
+      selected.forEach((val) => {
+        this.selectedPermissions.push(val.value)
+      })
     }
   },
 }

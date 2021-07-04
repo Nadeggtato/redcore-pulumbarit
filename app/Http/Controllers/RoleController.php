@@ -44,6 +44,8 @@ class RoleController extends Controller
             'description' => $createRoleRequest->input('description'),
         ]);
 
+        $role->syncPermissions($createRoleRequest->input('permissions'));
+
         return ResponseFacade::json([
             'success' => true,
             'data' => (object)[
@@ -59,7 +61,7 @@ class RoleController extends Controller
         if (auth('web')->user()->cannot('update', Role::find($id))) {
             abort(Response::HTTP_FORBIDDEN);
         }
-        $role = Role::findById($id);
+        $role = Role::with('permissions')->find($id);
 
         return view('roles.update', compact('role'));
     }
@@ -73,6 +75,7 @@ class RoleController extends Controller
             'description' => $updateRoleRequest->input('description'),
         ]);
 
+        $role->syncPermissions($updateRoleRequest->input('permissions'));
         return ResponseFacade::json([
             'success' => true,
             'date' => Carbon::now(),
