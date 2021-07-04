@@ -44,13 +44,6 @@ class UserPolicy
         return $user->can('create user');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\User $model
-     * @return mixed
-     */
     public function update(User $user, User $model)
     {
         if ($model->hasRole(Role::SUPER_ADMIN)) {

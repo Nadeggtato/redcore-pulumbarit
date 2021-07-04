@@ -2568,8 +2568,18 @@ __webpack_require__.r(__webpack_exports__);
     return {
       users: [],
       toDelete: null,
-      isForbidden: false
+      errorMessage: ''
     };
+  },
+  props: {
+    canEdit: {
+      type: Boolean,
+      required: true
+    },
+    canDelete: {
+      type: Boolean,
+      required: true
+    }
   },
   mounted: function mounted() {
     var _this = this;
@@ -2588,7 +2598,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteUser: function deleteUser() {
       var _this2 = this;
 
-      this.isForbidden = false;
+      this.errorMessage = '';
       window.axios.post('/users/delete', {
         '_method': 'delete',
         'id': this.toDelete
@@ -2598,7 +2608,13 @@ __webpack_require__.r(__webpack_exports__);
         $(_this2.$refs.confirmationModal).modal('hide');
 
         if (error.response.status === 403) {
-          _this2.isForbidden = true;
+          if (error.response.error) {
+            _this2.errorMessage = 'Unable to delete last user.';
+          } else {
+            _this2.errorMessage = 'You are not allowed to delete super admin.';
+          }
+        } else {
+          _this2.errorMessage = 'There was an error processing your request. Please try again later.';
         }
       });
     }
@@ -39593,16 +39609,19 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm.isForbidden
+    _vm.errorMessage !== ""
       ? _c("div", { staticClass: "alert alert-danger" }, [
           _vm._m(2),
           _vm._v(" "),
-          _vm._m(3)
+          _c("span", [
+            _c("b", [_vm._v(" Oops - ")]),
+            _vm._v(" " + _vm._s(_vm.errorMessage))
+          ])
         ])
       : _vm._e(),
     _vm._v(" "),
     _c("table", { staticClass: "table tablesorter", attrs: { id: "" } }, [
-      _vm._m(4),
+      _vm._m(3),
       _vm._v(" "),
       _c(
         "tbody",
@@ -39625,27 +39644,31 @@ var render = function() {
             _c("td", [_vm._v(_vm._s(user.created_at))]),
             _vm._v(" "),
             _c("td", { staticClass: "text-right" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "/users/update/" + user.id }
-                },
-                [_c("i", { staticClass: "tim-icons icon-pencil" })]
-              ),
+              _vm.canEdit
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      attrs: { href: "/users/update/" + user.id }
+                    },
+                    [_c("i", { staticClass: "tim-icons icon-pencil" })]
+                  )
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  on: {
-                    click: function($event) {
-                      return _vm.confirmDelete(user.id)
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "tim-icons icon-trash-simple" })]
-              )
+              _vm.canDelete
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.confirmDelete(user.id)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "tim-icons icon-trash-simple" })]
+                  )
+                : _vm._e()
             ])
           ])
         }),
@@ -39701,15 +39724,6 @@ var staticRenderFns = [
       },
       [_c("i", { staticClass: "tim-icons icon-simple-remove" })]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", [
-      _c("b", [_vm._v(" Oops - ")]),
-      _vm._v(" Unable to delete the last user.")
-    ])
   },
   function() {
     var _vm = this

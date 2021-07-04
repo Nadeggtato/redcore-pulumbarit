@@ -19,6 +19,17 @@ class UserController extends Controller
         return User::with('roles')->get();
     }
 
+    public function showCreateForm()
+    {
+        /** @var User $user */
+        $user = auth('web')->user();
+        if ($user->cannot('create', User::class)) {
+            abort(Response::HTTP_UNAUTHORIZED);
+        }
+
+        return view('users.create');
+    }
+
     public function create(CreateUserRequest $createUserRequest)
     {
         /** @var User $user */
@@ -46,6 +57,10 @@ class UserController extends Controller
     {
         /** @var User $user */
         $user = User::with('roles')->find($id);
+
+        if (auth('web')->user()->cannot('update', $user)) {
+            abort(Response::HTTP_UNAUTHORIZED);
+        }
 
         return view('users.update', compact('user'));
     }

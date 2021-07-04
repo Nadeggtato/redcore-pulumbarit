@@ -19,12 +19,12 @@
         </div>
       </div>
     </div>
-    <div class="alert alert-danger" v-if="isForbidden">
+    <div class="alert alert-danger" v-if="errorMessage !== ''">
       <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
         <i class="tim-icons icon-simple-remove"></i>
       </button>
       <span>
-            <b> Oops - </b> Unable to delete the last user.</span>
+            <b> Oops - </b> {{ errorMessage }}</span>
     </div>
     <table class="table tablesorter" id="">
       <thead class=" text-primary">
@@ -48,10 +48,10 @@
         </td>
         <td>{{ user.created_at }}</td>
         <td class="text-right">
-          <a :href="'/users/update/' + user.id" class="btn btn-sm btn-primary">
+          <a :href="'/users/update/' + user.id" class="btn btn-sm btn-primary" v-if="canEdit">
             <i class="tim-icons icon-pencil"></i>
           </a>
-          <button class="btn btn-sm btn-primary" @click="confirmDelete(user.id)">
+          <button class="btn btn-sm btn-primary" @click="confirmDelete(user.id)" v-if="canDelete">
             <i class="tim-icons icon-trash-simple"></i>
           </button>
         </td>
@@ -68,7 +68,17 @@
       return {
         users: [],
         toDelete: null,
-        isForbidden: false
+        errorMessage: ''
+      }
+    },
+    props: {
+      canEdit: {
+        type: Boolean,
+        required: true
+      },
+      canDelete: {
+        type: Boolean,
+        required: true
       }
     },
     mounted () {
@@ -85,7 +95,7 @@
         $(this.$refs.confirmationModal).modal('show')
       },
       deleteUser() {
-        this.isForbidden = false
+        this.errorMessage = ''
         window.axios.post('/users/delete', {
           '_method': 'delete',
           'id': this.toDelete
@@ -94,7 +104,13 @@
         }).catch((error) => {
           $(this.$refs.confirmationModal).modal('hide')
           if (error.response.status === 403) {
-            this.isForbidden = true
+            if (error.response.error) {
+              this.errorMessage = 'Unable to delete last user.'
+            } else {
+              this.errorMessage = 'You are not allowed to delete super admin.'
+            }
+          } else {
+            this.errorMessage = 'There was an error processing your request. Please try again later.'
           }
         })
       }

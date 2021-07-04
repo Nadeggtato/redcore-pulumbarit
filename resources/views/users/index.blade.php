@@ -18,19 +18,21 @@
             <div class="col-8">
               <h4 class="card-title">Users</h4>
             </div>
-            <div class="col-4 text-right">
-              <a href="{{ route('user.create.form') }}" class="btn btn-sm btn-primary">Add user</a>
-            </div>
+            @if(auth('web')->user()->can('create user'))
+              <div class="col-4 text-right">
+                <a href="{{ route('user.create.form') }}" class="btn btn-sm btn-primary">Add user</a>
+              </div>
+            @endif
           </div>
         </div>
         <div class="card-body">
-          <users-table></users-table>
+          <users-table :can-edit="{{ auth('web')->user()->can('update user') ? 'true' : 'false' }}"
+                       :can-delete="{{ auth('web')->user()->can('delete user') ? 'true' : 'false' }}">
+          </users-table>
         </div>
 
         <div class="card-footer py-4">
-
           <nav class="d-flex justify-content-end" aria-label="...">
-
           </nav>
         </div>
       </div>
