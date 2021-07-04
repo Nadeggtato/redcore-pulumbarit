@@ -18,13 +18,16 @@
             <div class="col-8">
               <h4 class="card-title">Roles</h4>
             </div>
-            <div class="col-4 text-right">
-              <a href="{{ route('role.create.form') }}" class="btn btn-sm btn-primary">Add role</a>
-            </div>
+            @if(auth('web')->user()->can('create', \App\Models\Role::class))
+              <div class="col-4 text-right">
+                <a href="{{ route('role.create.form') }}" class="btn btn-sm btn-primary">Add role</a>
+              </div>
+            @endif
           </div>
         </div>
         <div class="card-body">
-          <roles-table></roles-table>
+          <roles-table :can-edit="{{ auth('web')->user()->can('update role') ? 'true' : 'false' }}"
+                       :can-delete="{{ auth('web')->user()->can('delete role') ? 'true' : 'false' }}"></roles-table>
         </div>
 
         <div class="card-footer py-4">

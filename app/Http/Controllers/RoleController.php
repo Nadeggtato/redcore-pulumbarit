@@ -6,16 +6,34 @@ use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\DeleteRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
+use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Response as ResponseFacade;
 
 class RoleController extends Controller
 {
+    public function index()
+    {
+        if (auth('web')->user()->cannot('viewAny', Role::class)) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
+        return view('roles.index');
+    }
+
     public function roleList()
     {
         return Role::all();
+    }
+
+    public function showCreateForm()
+    {
+        if (auth('web')->user()->cannot('create', User::class)) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
+        return view('roles.create');
     }
 
     public function create(CreateRoleRequest $createRoleRequest)
@@ -36,30 +54,11 @@ class RoleController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Role $role
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Role $role)
-    {
-        //
-    }
-
     public function edit(int $id)
     {
+        if (auth('web')->user()->cannot('update', Role::find($id))) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
         $role = Role::findById($id);
 
         return view('roles.update', compact('role'));

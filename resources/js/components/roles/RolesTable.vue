@@ -39,10 +39,10 @@
         <td>{{ role.name }}</td>
         <td>{{ role.description }}</td>
         <td class="text-right">
-          <a :href="'/roles/update/' + role.id" class="btn btn-sm btn-primary">
+          <a :href="'/roles/update/' + role.id" class="btn btn-sm btn-primary" v-if="canEdit">
             <i class="tim-icons icon-pencil"></i>
           </a>
-          <button class="btn btn-sm btn-primary" @click="confirmDelete(role.id)">
+          <button class="btn btn-sm btn-primary" @click="confirmDelete(role.id)" v-if="canDelete">
             <i class="tim-icons icon-trash-simple"></i>
           </button>
         </td>
@@ -61,6 +61,16 @@ export default {
       toDelete: null,
       isForbidden: false,
       errorMessage: ''
+    }
+  },
+  props: {
+    canEdit: {
+      type: Boolean,
+      required: true
+    },
+    canDelete: {
+      type: Boolean,
+      required: true
     }
   },
   mounted () {

@@ -31,7 +31,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::before(function ($user, $ability) {
-            return $user->hasRole(Role::SUPER_ADMIN) ? true : null;
+            // Role ID 1 will always be considered as super admin even if renamed.
+            return $user->hasRole(Role::findById(1)) ? true : null;
         });
     }
 }

@@ -33,9 +33,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('users/update', [UserController::class, 'update'])->name('user.update');
     Route::delete('users/delete', [UserController::class, 'delete'])->name('user.delete');
 
-    Route::view('roles', 'roles.index')->name('role.index');
+    Route::get('roles', [RoleController::class, 'index'])->name('role.index');
     Route::get('roles/list', [RoleController::class, 'roleList'])->name('role.list');
-    Route::view('roles/create', 'roles.create')->name('role.create.form');
+    Route::get('roles/create', [RoleController::class, 'showCreateForm'])->name('role.create.form');
     Route::post('roles/create', [RoleController::class, 'create'])->name('role.create');
     Route::get('roles/update/{id}', [RoleController::class, 'edit'])->name('role.update.form');
     Route::put('roles/update', [RoleController::class, 'update'])->name('role.update');

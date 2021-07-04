@@ -2138,6 +2138,16 @@ __webpack_require__.r(__webpack_exports__);
       errorMessage: ''
     };
   },
+  props: {
+    canEdit: {
+      type: Boolean,
+      required: true
+    },
+    canDelete: {
+      type: Boolean,
+      required: true
+    }
+  },
   mounted: function mounted() {
     var _this = this;
 
@@ -38893,27 +38903,31 @@ var render = function() {
             _c("td", [_vm._v(_vm._s(role.description))]),
             _vm._v(" "),
             _c("td", { staticClass: "text-right" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "/roles/update/" + role.id }
-                },
-                [_c("i", { staticClass: "tim-icons icon-pencil" })]
-              ),
+              _vm.canEdit
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      attrs: { href: "/roles/update/" + role.id }
+                    },
+                    [_c("i", { staticClass: "tim-icons icon-pencil" })]
+                  )
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  on: {
-                    click: function($event) {
-                      return _vm.confirmDelete(role.id)
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "tim-icons icon-trash-simple" })]
-              )
+              _vm.canDelete
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.confirmDelete(role.id)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "tim-icons icon-trash-simple" })]
+                  )
+                : _vm._e()
             ])
           ])
         }),

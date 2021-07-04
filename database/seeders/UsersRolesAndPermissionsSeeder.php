@@ -51,6 +51,7 @@ class UsersRolesAndPermissionsSeeder extends Seeder
 
         $adminPermissions = [
             'view any user',
+            'view any role',
         ];
 
         foreach ($adminPermissions as $permission) {

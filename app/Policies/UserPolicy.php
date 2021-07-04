@@ -46,7 +46,7 @@ class UserPolicy
 
     public function update(User $user, User $model)
     {
-        if ($model->hasRole(Role::SUPER_ADMIN)) {
+        if ($model->hasRole(Role::find(1))) {
             return false;
         }
 
@@ -62,7 +62,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        if ($model->hasRole(Role::SUPER_ADMIN)) {
+        if ($model->hasRole(Role::find(1))) {
             return false;
         }
 

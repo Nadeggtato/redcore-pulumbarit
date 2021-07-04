@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteRoleRequest extends FormRequest
@@ -13,7 +14,7 @@ class DeleteRoleRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth('web')->user()->can('delete', Role::find(request()->input('id')));
     }
 
     /**
