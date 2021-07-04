@@ -23,4 +23,6 @@ class Role extends SpatieRole
     use HasFactory;
 
     const SUPER_ADMIN = 'Super Admin';
+
+    const ADMIN = 'Admin';
 }

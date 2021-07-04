@@ -98,7 +98,7 @@ class RoleController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        $role->forceDelete();
+        $role->delete();
         session()->flash('success', 'Role has been deleted!');
 
         return ResponseFacade::json([
